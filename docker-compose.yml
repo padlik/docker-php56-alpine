@@ -1,0 +1,37 @@
+sugar:
+  image: absolutapps/php56-alpine
+
+  volumes:
+   - ./sugar:/var/www/localhost/htdocs/sugar
+   - ./sugar.d:/sugar.d
+
+  links:
+   - mysql
+   - elastic
+  
+  environment:
+   - DB_USER=root
+   - DB_PASS=
+   - SUGAR_LICENSE=
+
+mysql:
+  image: mysql
+
+  volumes:
+   - ./mysql/data:/var/lib/mysql
+   - ./mysql/config:/etc/mysql/conf.d
+
+  expose:
+   - "3306"
+
+  ports:
+   - "3306"    
+
+  environment:
+   - MYSQL_ALLOW_EMPTY_PASSWORD=true 
+ 
+elastic:
+  image: elasticsearch:1.4
+
+  volumes:
+  - ./elastic:/usr/share/elasticsearch/data
